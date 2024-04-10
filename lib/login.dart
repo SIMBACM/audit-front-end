@@ -1,10 +1,9 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:project/process.dart';
+import 'package:project/adminpage.dart';
+import 'package:project/auditpage.dart';
 import 'package:project/forgotpassword.dart';
 import 'package:project/services/services.dart';
-
 class LoginPage extends StatefulWidget {
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -14,23 +13,37 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
 
-  void sendValues() async {
-    final response = await PostApiServices().getpost(
-      email.text,
-      password.text,
-    );
+  void sendValues()async{
+    final response=await PostApiServices().getpost(
+        email.text,
+        password.text);
 
-    if (response["status"] == "success") {
-      print("Login Successful");
+    if(response["status"]== "user login success")
+    {
+      print("Login Successfull");
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => process()),
+      Navigator.push(context, MaterialPageRoute(builder:
+          (context)=>MyHomePage())
       );
-    } else {
-      print("Invalid password");
+    }
+    else if(response["status"]=="admin login success")
+    {
+      print("admin login successfull");
+      Navigator.push(context, MaterialPageRoute(builder:
+      (context)=>AdminPanel()));
+
+    }
+    else if(response["status"]=="audit login success")
+      {
+        Navigator.push(context, MaterialPageRoute(builder:
+        (context)=>MyHomePage()));
+      }
+    else
+    {
+     simplePopup(context,response["status"]);
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -191,4 +204,14 @@ Widget inputFile({label, icon, obscureText = false, TextEditingController? contr
       SizedBox(height: 10),
     ],
   );
+}
+
+void simplePopup(BuildContext context,String s){
+  final snackBar=SnackBar(
+    content: Text(s,style: TextStyle(color: Colors.blue),),
+    duration: Duration(seconds: 5),
+    behavior: SnackBarBehavior.floating,
+    backgroundColor: Colors.white,
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }

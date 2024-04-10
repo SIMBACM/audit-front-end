@@ -8,18 +8,24 @@ class ForgotPasswordPage extends StatefulWidget {
 
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   TextEditingController emailController = TextEditingController();
+  TextEditingController newPasswordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
   String message = '';
 
-  Future<void> sendResetEmail() async {
+  Future sendResetEmail() async {
     try {
-      final response = await PostApiServices().forgotpassword(emailController.text);
+      final response = await PostApiServices().forgotpassword(
+        emailController.text,
+        newPasswordController.text,
+        confirmPasswordController.text,
+      );
       if (response["status"] == "success") {
         setState(() {
-          message = "Password reset email sent successfully";
+          message = "Password reset  successfully";
         });
       } else {
         setState(() {
-          message = response["message"] ?? "Failed to send password reset email";
+          message = response["message"] ?? "Failed to reset password";
         });
       }
     } catch (error) {
@@ -59,6 +65,32 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 ),
               ),
               SizedBox(height: 20),
+              TextField(
+                controller: newPasswordController,
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'New Password',
+                  prefixIcon: Icon(Icons.lock),
+                  contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              TextField(
+                controller: confirmPasswordController,
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'Confirm Password',
+                  prefixIcon: Icon(Icons.lock),
+                  contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
               ElevatedButton(
                 onPressed: sendResetEmail,
                 style: ElevatedButton.styleFrom(
@@ -75,7 +107,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               SizedBox(height: 10),
               Text(
                 message,
-                style: TextStyle(color: Colors.red),
+                style: TextStyle(color: Colors.black),
               ),
             ],
           ),

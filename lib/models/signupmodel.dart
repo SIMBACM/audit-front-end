@@ -4,34 +4,34 @@
 
 import 'dart:convert';
 
-Posts postsFromJson(String str) => Posts.fromJson(json.decode(str));
+List<Posts> postsFromJson(String str) => List<Posts>.from(json.decode(str).map((x) => Posts.fromJson(x)));
 
-String postsToJson(Posts data) => json.encode(data.toJson());
+String postsToJson(List<Posts> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Posts {
+  String id;
   String username;
   String email;
   String password;
-  String confirmPassword;
 
   Posts({
+    required this.id,
     required this.username,
     required this.email,
     required this.password,
-    required this.confirmPassword,
   });
 
   factory Posts.fromJson(Map<String, dynamic> json) => Posts(
+    id: json["_id"],
     username: json["username"],
     email: json["email"],
     password: json["password"],
-    confirmPassword: json["confirm_password"],
   );
 
   Map<String, dynamic> toJson() => {
+    "_id": id,
     "username": username,
     "email": email,
     "password": password,
-    "confirm_password": confirmPassword,
   };
 }
