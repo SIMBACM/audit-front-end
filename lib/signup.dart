@@ -13,29 +13,50 @@ class _SignupPageState extends State<SignupPage> {
   TextEditingController confirmPassword = TextEditingController();
   String errorMessage = '';
 
+  void simplePopup(BuildContext context,String s){
+    final snackBar=SnackBar(
+      content: Text(s,style: TextStyle(color: Colors.blue),),
+      duration: Duration(seconds: 5),
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Colors.white,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   void sendValuesToApi() async {
     try {
       final response = await PostApiServices().sendData(
         username.text,
         email.text,
         password.text,
-        confirmPassword.text,
       );
+
       if (response["status"] == "success") {
-        print("User signed up successfully");
+        setState(() {
+          simplePopup(context, "User signed up successfully");
+        });
         // Navigate to success screen or do something else
+      } else if (response["status"] == "passwordMismatch") {
+        setState(() {
+          errorMessage = "Passwords do not match";
+        });
+      } else if (response["status"] == "tempsuccess") {
+        setState(() {
+          simplePopup(context, "Temporary User signed up successfully");
+        });
       } else {
         setState(() {
-          errorMessage = response["message"];
+          simplePopup(context, "Something went wrong");
         });
       }
     } catch (e) {
       print("Error: $e");
       setState(() {
-        errorMessage = 'Email already exist. Please try again.';
+        errorMessage = 'An error occurred. Please try again.';
       });
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +110,7 @@ class _SignupPageState extends State<SignupPage> {
                     inputFile(label: "Username", controller: username),
                     inputFile(label: "Email", controller: email),
                     inputFile(label: "Password", obscureText: true, controller: password),
-                    inputFile(label: "Confirm Password ", obscureText: true, controller: confirmPassword),
+                    inputFile(label: "Confirm Password ", obscureText: true),
                   ],
                 ),
               ),
