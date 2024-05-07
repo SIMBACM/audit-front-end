@@ -1,9 +1,12 @@
 
 import 'package:flutter/material.dart';
+import 'package:project/Audit%20options.dart';
+import 'package:project/View%20in%20admin.dart';
+import 'package:project/Viewpage.dart';
 import 'package:project/adminpage.dart';
-import 'package:project/auditpage.dart';
 import 'package:project/forgotpassword.dart';
 import 'package:project/services/services.dart';
+
 class LoginPage extends StatefulWidget {
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -23,20 +26,21 @@ class _LoginPageState extends State<LoginPage> {
       print("Login Successfull");
 
       Navigator.push(context, MaterialPageRoute(builder:
-          (context)=>MyHomePage())
+          (context)=>ViewPage())
       );
     }
     else if(response["status"]=="admin login success")
     {
       print("admin login successfull");
       Navigator.push(context, MaterialPageRoute(builder:
-      (context)=>AdminPanel()));
+      (context)=>Adminpanel()
+      ));
 
     }
     else if(response["status"]=="audit login success")
       {
         Navigator.push(context, MaterialPageRoute(builder:
-        (context)=>MyHomePage()));
+        (context)=>AuditorHomeScreen()));
       }
     else
     {
@@ -163,6 +167,15 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ],
                     ),
+                    Container(
+                      padding: EdgeInsets.only(top: 100),
+                      height: 200,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage("assets/background.png")
+                        )
+                      ),
+                    )
                   ],
                 ),
               ),

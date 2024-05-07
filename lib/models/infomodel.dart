@@ -1,12 +1,8 @@
-// To parse this JSON data, do
-//
-//     final audit = auditFromJson(jsonString);
-
 import 'dart:convert';
 
-List<Audit> auditFromJson(String str) => List<Audit>.from(json.decode(str).map((x) => Audit.fromJson(x)));
+Audit auditFromJson(String str) => Audit.fromJson(json.decode(str));
 
-String auditToJson(List<Audit> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String auditToJson(Audit data) => json.encode(data.toJson());
 
 class Audit {
   String id;
@@ -24,6 +20,15 @@ class Audit {
   List<String> objectionInBriefForEachPara;
   List<String> duty;
   String total;
+  String spotrecovery;
+  String taxrecoverd;
+  String divisionalFileNumber;
+  String scnNo;
+  String scnDate;
+  String amountDemandedInScn;
+  List<String> reasonsForClosureOfPara;
+  String dateClosureOfPara;
+  String remarks;
   int v;
 
   Audit({
@@ -42,6 +47,15 @@ class Audit {
     required this.objectionInBriefForEachPara,
     required this.duty,
     required this.total,
+    required this.spotrecovery,
+    required this.taxrecoverd,
+    required this.divisionalFileNumber,
+    required this.scnNo,
+    required this.scnDate,
+    required this.amountDemandedInScn,
+    required this.reasonsForClosureOfPara,
+    required this.dateClosureOfPara,
+    required this.remarks,
     required this.v,
   });
 
@@ -53,14 +67,25 @@ class Audit {
     addressOfTheTaxpayer: json["addressOfTheTaxpayer"],
     rangeAndDivision: json["rangeAndDivision"],
     registrationNumberOfTheTaxpayer: json["registrationNumberOfTheTaxpayer"],
-    startDate: json["startDate"],
-    endDate: json["endDate"],
-    dateOfAudit: json["dateOfAudit"],
+    startDate: (json["startDate"]),
+    endDate: (json["endDate"]),
+    dateOfAudit: (json["dateOfAudit"]),
     iaPno: json["IAPno"],
     nameofsupdt: json["Nameofsupdt"],
-    objectionInBriefForEachPara: List<String>.from(json["objectionInBriefForEachPara"].map((x) => x)),
+    objectionInBriefForEachPara:
+    List<String>.from(json["objectionInBriefForEachPara"].map((x) => x)),
     duty: List<String>.from(json["duty"].map((x) => x)),
     total: json["total"],
+    spotrecovery: json["spotrecovery"],
+    taxrecoverd: json["taxrecoverd"],
+    divisionalFileNumber: json["divisionalFileNumber"],
+    scnNo: json["scnNo"],
+    scnDate: (json["scnDate"]),
+    amountDemandedInScn: json["amountDemandedInScn"],
+    reasonsForClosureOfPara:
+    List<String>.from(json["reasonsForClosureOfPara"].map((x) => x)),
+    dateClosureOfPara: (json["dateClosureOfPara"]),
+    remarks: json["remarks"],
     v: json["__v"],
   );
 
@@ -80,6 +105,16 @@ class Audit {
     "objectionInBriefForEachPara": List<dynamic>.from(objectionInBriefForEachPara.map((x) => x)),
     "duty": List<dynamic>.from(duty.map((x) => x)),
     "total": total,
+    "spotrecovery": spotrecovery,
+    "taxrecoverd": taxrecoverd,
+    "divisionalFileNumber": divisionalFileNumber,
+    "scnNo": scnNo,
+    "scnDate": scnDate,
+    "amountDemandedInScn": amountDemandedInScn,
+    "reasonsForClosureOfPara": List<dynamic>.from(reasonsForClosureOfPara.map((x) => x)),
+    "dateClosureOfPara": dateClosureOfPara,
+    "remarks": remarks,
     "__v": v,
   };
+
 }

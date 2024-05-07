@@ -1,11 +1,12 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:project/Splash_screen.dart';
 import 'package:project/login.dart';
 import 'package:project/signup.dart';
 void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: HomePage(),
+    home: SplashScreen(),
   ));
 }
 
@@ -30,7 +31,7 @@ class HomePage extends StatelessWidget {
               Column(
                 children: <Widget>[
                   Text(
-                    "Welcome",
+                    "Welcome To Mitra",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 30,
@@ -41,7 +42,22 @@ class HomePage extends StatelessWidget {
                   SizedBox(
                     height: 20,
                   ),
+                  Text("Mitra helps you to monitoring of tax and revenue",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.grey[700],
+                      fontSize: 15,
+                    ),
+                  ),
                 ],
+              ),
+              Container(
+                height: MediaQuery.of(context).size.height /3,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/welcome.png")
+                  )
+                ),
               ),
 
               Column(

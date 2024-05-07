@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:project/adminBottomNavigator.dart';
+import 'package:project/login.dart';
 import 'package:project/models/infomodel.dart';
 import 'package:project/services/services.dart';
 
-class Vie extends StatefulWidget {
-  const Vie({Key? key}) : super(key: key);
+class adminViewPage extends StatefulWidget {
+  const adminViewPage({Key? key}) : super(key: key);
 
   @override
-  State<Vie> createState() => _ViewPageState();
+  State<adminViewPage> createState() => _adminViewPageState();
 }
 
-class _ViewPageState extends State<Vie> {
+class _adminViewPageState extends State<adminViewPage> {
   late Future<List<Audit>> auditdata;
 
   @override
@@ -18,9 +19,25 @@ class _ViewPageState extends State<Vie> {
     super.initState();
     auditdata = PostApiServices().infosave();
   }
-  @override
+
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Admin view page',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        actions: [
+          IconButton(onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+          },
+            icon: Icon(Icons.logout, color: Colors.black),
+          )
+        ],
+      ),
       body: FutureBuilder<List<Audit>>(
         future: auditdata,
         builder: (context, snapshot) {
@@ -50,7 +67,7 @@ class _ViewPageState extends State<Vie> {
                       final userDetails = userDetailsList[index];
                       return Card(
                         color: Colors.blue,
-                        margin: EdgeInsets.symmetric(vertical:8, horizontal: 16),
+                        margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                         elevation: 2,
                         child: Padding(
                           padding: EdgeInsets.all(16),
@@ -67,7 +84,9 @@ class _ViewPageState extends State<Vie> {
                                       style: TextStyle(color: Colors.white),
                                     ),
                                   ),
-                                  Text('Taxpayername: ${userDetails.nameOfTheTaxpayer}',),
+                                  Text(
+                                    'Name: ${userDetails.nameOfTheTaxpayer}',
+                                  ),
                                   ElevatedButton(
                                     onPressed: () {
                                       // Navigate to a new page to show full details
@@ -80,26 +99,16 @@ class _ViewPageState extends State<Vie> {
                                     },
                                     child: Text('View Details'),
                                   ),
-                                  CircleAvatar(
-                                    backgroundColor: Colors.blue,
-                                    child: Text(
-                                      userDetails.nameOfTheTaxpayer.substring(0, 1).toUpperCase(),
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ),
                                 ],
                               ),
                               SizedBox(height: 8),
-                              Text('Taxpayeraddress: ${userDetails.addressOfTheTaxpayer}'),
-                              SizedBox(height: 8),
-
-                          ]
+                              Text('Address: ${userDetails.addressOfTheTaxpayer}'),
+                            ],
                           ),
                         ),
                       );
                     },
                   ),
-
                 ),
               ],
             );
